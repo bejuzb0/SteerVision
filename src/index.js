@@ -1,38 +1,132 @@
 import Phaser from 'phaser';
-import logoImg from './assets/logo.png';
+import backgroundImg from './assets/background.png';
+import car_objectImg from './assets/car_object.png';
+import dot_objectImg from './assets/dot.png';
+
+var quadrant = -1;
+var movableobj;
+var SLOWING_FACTOR = 40;
+var dot;
 
 class MyGame extends Phaser.Scene
 {
-    constructor ()
-    {
+
+    constructor () {
         super();
     }
 
-    preload ()
-    {
-        this.load.image('logo', logoImg);
+    preload () {
+        this.load.image('object', car_objectImg);
+        this.load.image('background', backgroundImg);
+        this.load.image('collectible', dot_objectImg);
     }
       
-    create ()
-    {
-        const logo = this.add.image(400, 150, 'logo');
-      
-        this.tweens.add({
-            targets: logo,
-            y: 450,
-            duration: 2000,
-            ease: "Power2",
-            yoyo: true,
-            loop: -1
-        });
+    create () {
+        this.add.image(400,300,'background');
+        movableobj = this.add.sprite(350, 350, 'object');
+        dot = this.add.sprite(300,300, 'collectible');
+      //  dot.setScale(0.05);
+    
+    
+        movableobj.setScale(0.08);
+    
+      /*  collectibles = this.physics.add.group({
+            key : 'collectible',
+            repeat : 0,
+            setXY : {x: 300, y :300},
+            setScale : {x:0.02, y: 0.02}
+        });  */
+
+        this.physics.add.overlap(movableobj,)
+    
+       // this.physics.add.overlap(movableobj, collectibles, onOverlapFunction, null, this);
+    
+    
+    }
+
+
+    update() {
+        
+        if(distanceX > 0) {
+            if(distanceY > 0) quadrant = 1;
+            else quadrant = 4;
+        } 
+        else {
+            if(distanceY > 0) quadrant = 2;
+            else quadrant = 3;
+        }
+        
+        var angleindegrees = angle*(180/Math.PI);
+        
+        
+        //angle = Math.abs(angle);
+    
+        if(quadrant == 1) {
+            movableobj.x = (movableobj.x + (magnitude/SLOWING_FACTOR)*Math.cos(angle));
+            movableobj.y -= (magnitude/SLOWING_FACTOR)*Math.sin(angle);
+            movableobj.angle = -angleindegrees;
+            
+            
+        }
+        else if(quadrant == 2) {
+            movableobj.x = (movableobj.x + (magnitude/SLOWING_FACTOR)*Math.cos(angle));
+            movableobj.y -= (magnitude/SLOWING_FACTOR)*Math.sin(angle);
+            movableobj.angle = -angleindegrees;
+    
+        }
+        else if(quadrant == 3) {
+            movableobj.x = (movableobj.x + (magnitude/SLOWING_FACTOR)*Math.cos(angle));
+            movableobj.y -= (magnitude/SLOWING_FACTOR)*Math.sin(angle);
+            movableobj.angle = -angleindegrees;
+        }
+        else {
+            movableobj.x = (movableobj.x + (magnitude/SLOWING_FACTOR)*Math.cos(angle));
+            movableobj.y -= (magnitude/SLOWING_FACTOR)*Math.sin(angle);
+            movableobj.angle = -angleindegrees;
+        }
+    
+    
+        if(movableobj.x > 800) {
+            movableobj.x = 0;
+        }
+        else if(movableobj.x < 0) {
+            movableobj.x = 800;
+        }
+        if(movableobj.y > 600) {
+            movableobj.y = 0;
+        }
+        else if(movableobj.y < 0) {
+            movableobj.y = 600;
+        }
+    
+        
+        /*if (cursors.left.isDown) {
+            movableobj.x -= magnitude/SLOWING_FACTOR;
+        }
+        else if (cursors.right.isDown) {
+            movableobj.x += magnitude/SLOWING_FACTOR;
+        }
+    
+        if (cursors.up.isDown){
+            movableobj.y -= magnitude/SLOWING_FACTOR;
+        }
+        else if (cursors.down.isDown) {
+            movableobj.y += magnitude/SLOWING_FACTOR;
+        }*/
+    }
+
+    render() {
+        this.debug.spriteInfo(movableobj, 20, 32);
     }
 }
 
 const config = {
     type: Phaser.AUTO,
-    parent: 'phaser-example',
     width: 800,
     height: 600,
+    physics: {
+        default: 'arcade'    
+    },
     scene: MyGame
 };
 
