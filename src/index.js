@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+var fs = require('browserify-fs');
 import backgroundImg from './assets/background.png';
 import car_objectImg from './assets/car_object.png';
 import dot_objectImg from './assets/dot.png';
@@ -8,8 +9,9 @@ var movableobj;
 var SLOWING_FACTOR = 40;
 var dot;
 
-class MyGame extends Phaser.Scene
-{
+
+
+class MyGame extends Phaser.Scene {
 
     constructor () {
         super();
@@ -24,9 +26,8 @@ class MyGame extends Phaser.Scene
     create () {
         this.add.image(400,300,'background');
         movableobj = this.add.sprite(350, 350, 'object');
-        dot = this.add.sprite(300,300, 'collectible');
+      //  dot = this.add.sprite(300,300, 'collectible');
       //  dot.setScale(0.05);
-    
     
         movableobj.setScale(0.08);
     
@@ -37,7 +38,7 @@ class MyGame extends Phaser.Scene
             setScale : {x:0.02, y: 0.02}
         });  */
 
-        this.physics.add.overlap(movableobj,)
+      //  this.physics.add.overlap(movableobj,);
     
        // this.physics.add.overlap(movableobj, collectibles, onOverlapFunction, null, this);
     
@@ -98,6 +99,15 @@ class MyGame extends Phaser.Scene
         else if(movableobj.y < 0) {
             movableobj.y = 600;
         }
+
+
+        
+     /*   fs.writeFile(__dirname + '/../helloworld.txt', 'helloworld', function (err) {
+        if (err) return console.log(err);
+        console.log(__dirname);
+        }); 
+
+    */
     
         
         /*if (cursors.left.isDown) {
