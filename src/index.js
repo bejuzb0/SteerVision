@@ -9,13 +9,11 @@ var movableobj;
 var SLOWING_FACTOR = 40;
 var dot;
 var dotgroup;
-var topleft_text;
+
+var topleft_text, coordinate_text;
 var points = 0;
 
 var spawn;
-
-
-
 
 class MyGame extends Phaser.Scene {
 
@@ -35,6 +33,7 @@ class MyGame extends Phaser.Scene {
         console.log(movableobj);
 
         topleft_text = this.add.text(10,10,"0 points",{ fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' } );
+        coordinate_text = this.add.text(10, 30, "X: 350 Y: 350",{ fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
 
 
         spawn = (spawnobjectname) => {
@@ -43,54 +42,7 @@ class MyGame extends Phaser.Scene {
         } 
 
         spawn('collectible');
-       // dot = this.physics.add.sprite(Phaser.Math.Between(50, 750),Phaser.Math.Between(50, 750),'collectible');
-        /* dotgroup = this.physics.add.staticGroup({
-            key : 'collectible',
-            frameQuantity: 10,
-            immovable: true,
-        });
 
-        var children = dotgroup.getChildren();
-
-        for(var i = 0; i<children.length; i++) {
-            var x = Phaser.Math.Between(50, 750);
-            var y = Phaser.Math.Between(50, 550);
-            children[i].setPosition(x, y);
-        }
-
-        dotgroup.refresh(); */
-        //this.physics.add.existing(movableobj);
-        //movableobj = this.add.sprite(350, 350, 'object');
-       // dot = this.physics.add.sprite(300,300, 'collectible');
-       // dot.setScale(0.02);
-
-        
-
-       /* spawn = (enemyName) => {
-            dot = this.physics.add.sprite(Phaser.Math.Between(0,400), Phaser.Math.Between(0,600), enemyName);
-        } */
-
-       /* if(checkOverlap(movableobj, dot)) {
-            console.log("Overlapped");
-            dot.destroy();
-            spawn('collectible');
-        }  */
-
-        //this.physics.overlap(movableobj,dot, callbackfn, null, this);
-       // this.physics.collide(movableobj, dot, callbackfn, null, this);
-    
-       /* collectibles = this.physics.add.group({
-            key : 'collectible',
-            repeat : 0,
-            setXY : {x: this, y :300},
-            setScale : {x:0.02, y: 0.02}
-        });   */
-
-      //  this.physics.add.overlap(movableobj,);
-    
-       // this.physics.add.overlap(movableobj, collectibles, onOverlapFunction, null, this);
-    
-    
     }
 
     
@@ -150,33 +102,11 @@ class MyGame extends Phaser.Scene {
             movableobj.y = 600;
         }
 
-
-        
-     /*   fs.writeFile(__dirname + '/../helloworld.txt', 'helloworld', function (err) {
-        if (err) return console.log(err);
-        console.log(__dirname);
-        }); 
-
-    */
-    
-        
-        /*if (cursors.left.isDown) {
-            movableobj.x -= magnitude/SLOWING_FACTOR;
-        }
-        else if (cursors.right.isDown) {
-            movableobj.x += magnitude/SLOWING_FACTOR;
-        }
-    
-        if (cursors.up.isDown){
-            movableobj.y -= magnitude/SLOWING_FACTOR;
-        }
-        else if (cursors.down.isDown) {
-            movableobj.y += magnitude/SLOWING_FACTOR;
-        }*/
+        coordinate_text.setText("X: " + movableobj.x.toFixed(2) + " Y: "+movableobj.y.toFixed(2));
     }
 
     removeObj(movableobj, dotobj) {
-             //  dotgroup.killAndHide(dotobj);
+        //  dotgroup.killAndHide(dotobj);
             console.log("Collided!");
             points += 10;
             topleft_text.setText(points + " points");
